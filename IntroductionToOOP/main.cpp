@@ -27,6 +27,7 @@ public:
 	{
 		this->y = y;
 	}
+	//		Operators:
 	Point& operator=(const Point& other)
 	{
 		this->x = other.x;
@@ -34,7 +35,19 @@ public:
 		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
 	}
-	
+	Point& operator++()
+	{
+		x++;
+		y++;
+		return *this;
+	}
+	Point operator++(int)
+	{
+		Point old = *this;
+		x++;
+		y++;
+		return old;
+	}
 	//			Methods:
 	double distanse(const Point& other)
 	{
@@ -86,10 +99,32 @@ double distance(const Point& A, const Point& B)
 	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 	return distance;
 }
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+		result.set_x(left.get_x() + right.get_x());
+		result.set_y(left.get_y() + right.get_y());
+		return result; 
+}
+bool operator==(const Point& left, const Point& right)
+{
+	/*if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
+		return true;
+	else
+		return false;*/
+	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
+
+}
+std::ostream& operator<<(std::ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
+}
 //#define STRICT_POINT
 //#define CONSTRACTOR_CHECK
 //#define DISTANCE_CHECK
-#define ASSIGNMENT_CHECK
+//#define ASSIGNMENT_CHECK
+//#define ARITHMETICAL_OPERATORS_CHECK
+//#define COPARISON_OPERATORS_CHECK
 #define delimeter "\n|--------------------------------------------------------------|\n"
 
 void main()
@@ -154,7 +189,7 @@ void main()
 
 	Point A, B, C;
 	cout << delimeter << endl;
-	A = B = C = Point(2, 3); //Point(2,3) - явон вызываем конструктор
+	A = B = C = Point(2, 3); //Point(2,3) - явно вызываем конструктор
 							 //И создаем временный безымяный объект.	
 							 //Этот объект и передается как парметр
 							 //В первый CopyAssignment. 
@@ -167,6 +202,33 @@ void main()
 	cout << delimeter << endl;
 #endif // ASSIGNMENT_CHECK
 
+#ifdef ARITHMETICAL_OPERATORS_CHECK
+	Point A(2, 3);
+	A.print();
+
+	Point B(7, 8);
+	B.print();
+
+	Point C = A + B;
+	C.print();
+
+	Point D = C++;
+	C.print();
+	D.print();
+#endif // ARITHMETICAL_OPERATORS_CHECK
+
+#ifdef COPARISON_OPERATORS_CHECK
+	//cout << (2 == 3);
+	Point A = (2, 3);
+	Point B = (7, 8);
+	cout << (A == B) << endl;;
+	//cout << (Point(2, 3) == Point(7, 8)) << endl;;  
+#endif // COPARISON_OPERATORS_CHECK
+
+	
+	Point A(2, 3);
+	
+	cout << A << endl;
 
 }
 
