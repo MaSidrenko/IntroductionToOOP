@@ -35,6 +35,43 @@ public:
 		if (denominator == 0)denominator = 1;
 		this->denominator = denominator;
 	}
+	//			Operators:
+	Fraction& operator=(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		return *this;
+	}
+	Fraction& operator++()
+	{
+		integer++;
+		return *this;
+	}
+	Fraction& operator++(int)
+	{
+		Fraction old = *this;
+		integer++;
+		return old;
+	}
+	Fraction& operator--()
+	{
+		integer--;
+		return *this;
+	}
+	Fraction& operator--(int)
+	{
+		Fraction old = *this;
+		integer--;
+		return old;
+	}
+	Fraction& operator*=(const Fraction& other)
+	{
+		this->integer *= other.integer;
+		this->numerator *= other.numerator;
+		this->denominator *= other.denominator;
+		return *this;
+	}
 	//			Constructors:
 	Fraction()
 	{
@@ -107,6 +144,36 @@ Fraction operator*(Fraction& left, Fraction& right)
 	result.set_denominator(left.get_denominator() * right.get_denominator());
 	return result;
 }
+Fraction operator+(Fraction& left, Fraction& right)
+{
+	Fraction result;
+	result.set_numerator((left.get_numerator() * right.get_denominator()) + (left.get_denominator() * right.get_numerator()));
+	result.set_denominator(left.get_denominator() * right.get_denominator());
+	return result;
+}
+Fraction operator-(Fraction& left, Fraction& right)
+{
+	Fraction result;
+	result.set_numerator((left.get_numerator() * right.get_denominator()) - (left.get_denominator() * right.get_numerator()));
+	result.set_denominator(left.get_denominator() * right.get_denominator());
+	return result;
+}
+Fraction operator==(Fraction& left, const Fraction& right)
+{
+	return left.get_integer() == right.get_integer() && left.get_denominator() == right.get_denominator() && left.get_numerator() == right.get_numerator();
+}
+Fraction operator/(Fraction& left,  Fraction& right)
+{
+	Fraction result;
+	result.set_numerator(left.get_numerator() * right.get_denominator());
+	result.set_denominator(left.get_denominator() * right.get_numerator());
+	return result;
+}
+std::ostream& operator<<(std::ostream& os, Fraction& obj)
+{
+	if (obj.get_integer() == 0)return os << obj.get_numerator() << "/" << obj.get_denominator();
+	else return os << obj.get_integer() << "(" << obj.get_numerator() << "/" << obj.get_denominator() << ")";
+}
 
 //#define CONSTRATORS_CHECK
 
@@ -134,8 +201,32 @@ void main()
 	B.print();
 
 	A.to_improper().print();
+	B.to_improper().print();
 	A.to_proper().print();
 
 	Fraction C = A * B;
-	C.print();
+	C.print(); 
+	Fraction  D = A + B;
+	D.print();
+
+	Fraction E = A - B;
+	E.print();
+
+	Fraction F = B;
+	//Fraction F = A / B;
+
+	//Fraction F = (A == B);
+	
+	cout << A << endl;
+
+	//F.print();
+	//++F;
+	//F.print();
+	//F++;
+	//F.print();
+	//--F;
+	//F.print();
+	//F--;
+	//F.print();
+	
 }

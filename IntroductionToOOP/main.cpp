@@ -124,7 +124,7 @@ std::ostream& operator<<(std::ostream& os, const Point& obj)
 //#define DISTANCE_CHECK
 //#define ASSIGNMENT_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
-//#define COPARISON_OPERATORS_CHECK
+#define COPARISON_OPERATORS_CHECK
 #define delimeter "\n|--------------------------------------------------------------|\n"
 
 void main()
@@ -226,7 +226,7 @@ void main()
 #endif // COPARISON_OPERATORS_CHECK
 
 	
-	Point A(2, 3);
+	//Point A(2, 3);
 	
 	cout << A << endl;
 
