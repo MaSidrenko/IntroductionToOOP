@@ -164,6 +164,8 @@ Fraction operator==(Fraction& left, const Fraction& right)
 }
 Fraction operator/(Fraction& left,  Fraction& right)
 {
+	left.to_improper();
+	right.to_improper();
 	Fraction result;
 	result.set_numerator(left.get_numerator() * right.get_denominator());
 	result.set_denominator(left.get_denominator() * right.get_numerator());
@@ -212,11 +214,11 @@ void main()
 	Fraction E = A - B;
 	E.print();
 
-	Fraction F = B;
-	//Fraction F = A / B;
+	//Fraction F = B;
+	Fraction F = A / B;
 
 	//Fraction F = (A == B);
-	
+	cout << F << endl;
 	cout << A << endl;
 
 	//F.print();
