@@ -6,7 +6,8 @@ using std::endl;
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
-Fraction operator/(const Fraction& left, const Fraction& right);
+Fraction operator/(const Fraction& left, const Fraction& right); 
+
 
 class Fraction 
 {
@@ -87,6 +88,8 @@ public:
 	{
 		return *this = *this / other;
 	}
+
+
 	//		Methods:
 	Fraction& to_improper()
 	{
@@ -165,6 +168,46 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 {
 	return left * right.inverted();
 }
+bool operator>(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return (left.get_numerator()/left.get_denominator()) > (right.get_numerator()/right.get_denominator());
+}
+bool operator<(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return (left.get_numerator() / left.get_denominator()) < (right.get_numerator() / right.get_denominator());
+}
+bool operator<=(const Fraction& left, const Fraction& right)
+{
+	return !(left > right);
+}
+bool operator>=(const Fraction& left, const Fraction right)
+{
+	return !(left < right);
+}
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return (left.get_numerator() / left.get_denominator()) == (right.get_numerator() / right.get_denominator());
+}
+bool operator!=(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return !((left.get_numerator() / left.get_denominator()) == (right.get_numerator() / right.get_denominator()));
+}
+std::ostream& operator<<(std::ostream& os, Fraction& obj)
+{
+	if (obj.get_integer() == 0)return os << obj.get_numerator() << "/" << obj.get_denominator();
+	else return os << obj.get_integer() << "(" << obj.get_numerator() << "/" << obj.get_denominator();
+}
+
+
+
 
 //#define CONSTRATORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
@@ -203,6 +246,10 @@ void main()
 	A /= B;
 	A.print();
 #endif // ARITHMETICAL_OPERATORS_CHECK
-
 	
+	
+	
+	cout << (Fraction(1,5,2) != Fraction(1,5,2)) << endl;
+	Fraction A;
+	cout << A;
 }
