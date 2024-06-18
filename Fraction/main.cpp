@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 
 using std::cout;
@@ -203,11 +204,35 @@ bool operator!=(Fraction left, Fraction right)
 std::ostream& operator<<(std::ostream& os, Fraction& obj)
 {
 	if (obj.get_integer() == 0)return os << obj.get_numerator() << "/" << obj.get_denominator();
-	else return os << obj.get_integer() << "(" << obj.get_numerator() << "/" << obj.get_denominator();
+	else return os << obj.get_integer() << "(" << obj.get_numerator() << "/" << obj.get_denominator() << ")";
 }
+std::istream& operator>>(std::istream& is, Fraction& obj)
+{
+	//int integer, numerator, denuminator;
+	//is >> integer >> numerator >> denuminator;
+	//obj = Fraction(integer, numerator, denuminator); 
+	const int SIZE = 256;
+	char buffer[SIZE] = {};
+	//is >> buffer;
+	is.getline(buffer, SIZE);
 
+	int numbers[3] = {};
+	int n = 0;
+	const char delimiters[] = " /()";
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+		numbers[n++] = atoi(pch); // Функция atoi() принимает строку, и возвращает целочисленный аналог этой строки,
+								  // То есть строку перобразует в число. 
+	//for (int i = 0; i < n; i++)cout << numbers[i] << "\t"; cout << endl;
 
+	switch (n)
+	{
+	case 1: obj = Fraction(numbers[0]); break;
+	case 2: obj = Fraction(numbers[0], numbers[1]); break;
+	case 3: obj = Fraction(numbers[0], numbers[1], numbers[2]); break;
+	}
 
+	return is;
+}
 
 //#define CONSTRATORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
@@ -248,8 +273,8 @@ void main()
 #endif // ARITHMETICAL_OPERATORS_CHECK
 	
 	
-	
 	cout << (Fraction(1,5,2) != Fraction(1,5,2)) << endl;
 	Fraction A;
-	cout << A;
+	cout << "Введите простую дробь: "; cin >> A;
+	cout << A << endl;
 }
