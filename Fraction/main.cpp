@@ -5,6 +5,8 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+#define delimiter "\n|----------------------------------------------|\n"
+
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
 Fraction operator/(const Fraction& left, const Fraction& right); 
@@ -49,7 +51,7 @@ public:
 		set_denominator(1);
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -70,11 +72,26 @@ public:
 		set_denominator(denominator);
 		cout << "Construtor:\t\t" << this << endl;
 	}
+	Fraction(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyConstructor:\t" << this << endl;
+	}
 	~Fraction()
 	{
 		cout << "Destructor:\t\t" << this << endl;
 	}
 	//		Operators:
+	Fraction& operator=(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyAssignment:\t\t" << this << endl;
+		return *this;
+	}
 	Fraction& operator*=(Fraction& other)
 	{
 		//this->to_improper();
@@ -204,6 +221,7 @@ bool operator!=(Fraction left, Fraction right)
 std::ostream& operator<<(std::ostream& os, Fraction& obj)
 {
 	if (obj.get_integer() == 0)return os << obj.get_numerator() << "/" << obj.get_denominator();
+	else if (obj.get_numerator() == 0)return os << obj.get_integer();
 	else return os << obj.get_integer() << "(" << obj.get_numerator() << "/" << obj.get_denominator() << ")";
 }
 std::istream& operator>>(std::istream& is, Fraction& obj)
@@ -236,6 +254,8 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 
 //#define CONSTRATORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
+//#define IOSTREAM_CHEK
+//#define CONVERSIONS_FROM_OTHER_TO_CLASS
 
 void main()
 {
@@ -272,9 +292,30 @@ void main()
 	A.print();
 #endif // ARITHMETICAL_OPERATORS_CHECK
 	
-	
-	cout << (Fraction(1,5,2) != Fraction(1,5,2)) << endl;
+#ifdef IOSTREAM_CHEK
+	cout << (Fraction(1, 5, 2) != Fraction(1, 5, 2)) << endl;
 	Fraction A;
 	cout << "¬ведите простую дробь: "; cin >> A;
 	cout << A << endl;
+#endif // IOSTREAM_CHEK
+
+#ifdef CONVERSIONS_FROM_OTHER_TO_CLASS
+	Fraction A = (Fraction)5;
+
+	cout << A << endl;
+	cout << delimiter << endl;
+
+	Fraction B;
+	cout << delimiter << endl;
+	B = (Fraction)8;
+	cout << delimiter << endl;
+
+	cout << B << endl;
+	cout << delimiter << endl;
+#endif // CONVERSIONS_FROM_OTHER_TO_CLASS
+
+	Fraction A = (Fraction)2.75; 
+	
+	cout << A << endl;
+
 }
