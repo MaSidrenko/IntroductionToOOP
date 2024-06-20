@@ -68,6 +68,7 @@ public:
 		reduce();
 		cout << "ConstructorDouble:\t" << this << endl;
 	}
+
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -116,8 +117,17 @@ public:
 	{
 		return *this = *this / other;
 	}
-
-
+	//		type-cast operators:
+	explicit operator int()
+	{
+		return to_proper().integer;
+		//return integer;
+	}
+	explicit operator double()const
+	{
+		//return to_improper().numerator / (double)denominator;
+		return integer + (numerator / (double)denominator);
+	}
 	//		Methods:
 	Fraction& to_improper()
 	{
@@ -266,6 +276,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define IOSTREAM_CHEK
 //#define CONVERSIONS_FROM_OTHER_TO_CLASS
+//#define CONVERSIONS_HOME_WORK
 
 void main()
 {
@@ -324,8 +335,21 @@ void main()
 	cout << delimiter << endl;
 #endif // CONVERSIONS_FROM_OTHER_TO_CLASS
 
-	Fraction A = 3.333; 
-	
+#ifdef CONVERSIONS_HOME_WORK
+
+	Fraction A = 3.333;
 	cout << A << endl;
+#endif // CONVERSIONS_HOME_WORK
+
+	Fraction A(2,3,4);
+	A.to_improper();
+	cout << A << endl;
+
+	int a = (int)A;
+	cout << a << endl;
+	cout << A << endl;
+
+	double da = (double)A;
+	cout << da << endl;
 
 }
