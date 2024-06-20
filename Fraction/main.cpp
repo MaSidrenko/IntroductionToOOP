@@ -58,6 +58,16 @@ public:
 		set_denominator(1);
 		cout << "1ArgConstructor:\t" << this << endl;
 	}
+	Fraction(double decimal)
+	{
+		//decimal += 1e-10;
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;
+		numerator = decimal * denominator + .1;
+		reduce();
+		cout << "ConstructorDouble:\t" << this << endl;
+	}
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -314,7 +324,7 @@ void main()
 	cout << delimiter << endl;
 #endif // CONVERSIONS_FROM_OTHER_TO_CLASS
 
-	Fraction A = (Fraction)2.75; 
+	Fraction A = 3.333; 
 	
 	cout << A << endl;
 
