@@ -30,7 +30,7 @@ public:
 		//this->str = new char[size] {};
 		cout << "Constructor:\t" << this << endl;
 	}
-	string(const char str[]):size(strlen(str) + 1), str(new char [size] {})
+	string(const char str[]):string(strlen(str) + 1)
 	{
 		//this->size = strlen(str) + 1;
 		// Ф-ция strlen() возвращает размер строки в символах
@@ -42,15 +42,15 @@ public:
 		}
 		cout << "Constructor:\t" << this << endl;
 	}
-	string(const string& other):size(other.size), str(new char[size] {})
+	string(const string& other):string(other.str)
 	{
 		// Deep copy (Побитовое копирование)
 		//this->size = other.size;
 		//this->str = new char[size] {};
-		for (int i = 0; i < size; i++)
+		/*for (int i = 0; i < size; i++)
 		{
 			this->str[i] = other.str[i];
-		}
+		}*/
 		cout << "CopyConstructor:" << this << endl;
 	}
 	string(string&& other)noexcept:size(other.size), str(other.str)
@@ -141,8 +141,8 @@ string operator+(const string& left, const string& right)
 }
 
 //#define HOME_WORK
-#define COPY_ASSIGMENT
-//#define CALLING_CONSTRUCTORS
+//#define COPY_ASSIGMENT
+#define CALLING_CONSTRUCTORS
 
 void main()
 {
