@@ -83,12 +83,14 @@ public:
 		cout << "CopyAssigment:\t" << this << endl;
 		return *this;
 	}
-	string& operator=(string&& other)noexcept
+	string& operator=(string&& other)noexcept //r-value reference &&
 	{
+		if (this == &other)return *this;
 		delete[] this->str;
 		this->size = other.size;
 		this->str = other.str;
 
+		//Reset other:
 		other.size = 0;
 		other.str = nullptr;
 		cout << "MoveAssigment:\t" << this << endl;
@@ -167,16 +169,15 @@ void main()
 	cout << delimiter;
 #endif // HOME_WORK
 
-
 	string str1 = "Hello";
 	string str2 = "World";
+	string str3;
 
 	cout << delimiter << endl;
-	string str3;
 	str3 = str1 + str2;
+	cout << delimiter << endl;
 	cout << str3 << endl;
 	cout << delimiter << endl;
 
-	cout << str1 << endl;
-	cout << str2 << endl;
+	cout << str1 << " " << str2 << endl;
 }
