@@ -24,39 +24,39 @@ public:
 		return str;
 	}
 	//		Constactor:
-	explicit string(int size = 80)
+	explicit string(int size = 80):size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << "Constructor:\t" << this << endl;
 	}
-	string(const char str[])
+	string(const char str[]):size(strlen(str) + 1), str(new char [size] {})
 	{
-		this->size = strlen(str) + 1;
+		//this->size = strlen(str) + 1;
 		// Ф-ция strlen() возвращает размер строки в символах
 		// И нам нужно добавить ещё один байт для NULL-Terminator`a
-		this->str = new char[size] {};
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)
 		{
 			this->str[i] = str[i];
 		}
 		cout << "Constructor:\t" << this << endl;
 	}
-	string(const string& other)
+	string(const string& other):size(other.size), str(new char[size] {})
 	{
 		// Deep copy (Побитовое копирование)
-		this->size = other.size;
-		this->str = new char[size] {};
+		//this->size = other.size;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)
 		{
 			this->str[i] = other.str[i];
 		}
 		cout << "CopyConstructor:" << this << endl;
 	}
-	string(string&& other)noexcept
+	string(string&& other)noexcept:size(other.size), str(other.str)
 	{
-		this->size = other.size;
-		this->str = other.str;	//Shallow copy 
+		//this->size = other.size;
+		//this->str = other.str;	//Shallow copy 
 			
 		//Reset other:
 		other.size = 0;
@@ -141,6 +141,8 @@ string operator+(const string& left, const string& right)
 }
 
 //#define HOME_WORK
+#define COPY_ASSIGMENT
+//#define CALLING_CONSTRUCTORS
 
 void main()
 {
@@ -169,6 +171,7 @@ void main()
 	cout << delimiter;
 #endif // HOME_WORK
 
+#ifdef COPY_ASSIGMENT
 	string str1 = "Hello";
 	string str2 = "World";
 	string str3;
@@ -180,4 +183,33 @@ void main()
 	cout << delimiter << endl;
 
 	cout << str1 << " " << str2 << endl;
+#endif // COPY_ASSIGMENT
+
+#ifdef CALLING_CONSTRUCTORS
+	string str1;			//default constractor
+	str1.print();
+
+	//string str2 = 8;		//explicit constructor так вызвать невозможно
+	string str2(8);			//explicit constructor можно вызвать только так
+	str2.print();
+	string str3 = "Hello";	//single-argiment constructor 'char'
+	str3.print();
+
+	string str4();			//Здесь НЕ вызывается никаой конструктор, и не созадется объект
+							//здесь объявляется функция str4, которая не принимает никаких параметров
+							// И возвращает значение типа 'string'
+							// т.е., таким образом DefaulConstractor вызвать невозможно 
+	//str4.print();
+	//Если нужно явно вызвать DefaultConstructor, это делается следубщим образом:
+	string str5{};			//Явный вызов конструктора по умолчанию
+	str5.print();
+	
+	//string str6 = str3;		//CopyConstructor
+	//string str6 (str3);		//CopyConstructor
+	string str6{ str3 };		//CopyConstructor
+	str6.print();
+	// Следовательно, абсолютно любой конструктор можно вызвать при помощи () или {} 
+#endif // CALLING_CONSTRUCTORS
+
+
 }
