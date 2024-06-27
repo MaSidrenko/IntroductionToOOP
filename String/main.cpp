@@ -23,14 +23,6 @@ public:
 	{
 		return str;
 	}
-	//int set_size(int size)
-	//{
-	//	this->size = size;
-	//}
-	//int set_str(char* str)
-	//{
-	//	this->str = str;
-	//}
 	//		Constactor:
 	explicit string(int size = 80)
 	{
@@ -61,6 +53,16 @@ public:
 		}
 		cout << "CopyConstructor:" << this << endl;
 	}
+	string(string&& other)noexcept
+	{
+		this->size = other.size;
+		this->str = other.str;	//Shallow copy 
+			
+		//Reset other:
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveConstructor:" << this << endl;
+	}
 	~string()
 	{
 		delete[] str;
@@ -70,6 +72,8 @@ public:
 	string& operator=(const string& other)
 	{
 		// Deep copy (Побитовое копирование)
+		if (this == &other)return *this;
+		delete[] this->str;
 		this->size = other.size;
 		this->str = new char[size] {};
 		for (int i = 0; i < size; i++)
@@ -79,6 +83,27 @@ public:
 		cout << "CopyAssigment:\t" << this << endl;
 		return *this;
 	}
+	string& operator=(string&& other)noexcept
+	{
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveAssigment:\t" << this << endl;
+		return *this;
+	}
+	const char& operator[](int i)const
+	{
+		return str[i];
+	}
+	char& operator[](int i)
+	{
+		return str[i];
+	}
+
+
 	//		Methods:
 	void print()const
 	{
@@ -92,24 +117,33 @@ public:
 std::ostream& operator<<(std::ostream& os, const string& obj)
 {
 	return os << obj.get_str();
+	cout << delimiter;
 }
 string operator+(const string& left, const string& right)
 {
+	cout << "Operator '+'" << endl;
+	//cout << delimiter;
 	string buffer(left.get_size() + right.get_size() - 1);
+	//buffer.print();
 	for (int i = 0; i < left.get_size(); i++)
 	{
-		buffer.get_str()[i] = left.get_str()[i];
+		buffer[i] = left[i];
+		//buffer.get_str()[i] = left.get_str()[i];
 	}
 	for (int i = 0; i < right.get_size(); i++)
 	{
-		buffer.get_str()[i + left.get_size() - 1] = right.get_str()[i];
+		buffer[i + left.get_size() - 1] = right[i];
+		//buffer.get_str()[i + left.get_size() - 1] = right.get_str()[i];
 	}
 	return buffer;
 }
 
+//#define HOME_WORK
+
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef HOME_WORK
 	string str1;
 	str1.print();
 
@@ -118,6 +152,7 @@ void main()
 	str2.print();
 
 	string str3 = "Hello";
+	str3 = str3;
 	str3.print();
 
 	string str4 = "World";
@@ -129,4 +164,19 @@ void main()
 	string str5;
 	str5 = str3 + str4;
 	cout << str5 << endl;
+	cout << delimiter;
+#endif // HOME_WORK
+
+
+	string str1 = "Hello";
+	string str2 = "World";
+
+	cout << delimiter << endl;
+	string str3;
+	str3 = str1 + str2;
+	cout << str3 << endl;
+	cout << delimiter << endl;
+
+	cout << str1 << endl;
+	cout << str2 << endl;
 }
