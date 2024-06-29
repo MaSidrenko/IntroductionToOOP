@@ -116,6 +116,7 @@ public:
 		cout << delimiter << endl;
 	}
 };
+
 std::ostream& operator<<(std::ostream& os, const string& obj)
 {
 	return os << obj.get_str();
@@ -210,6 +211,4 @@ void main()
 	str6.print();
 	// Следовательно, абсолютно любой конструктор можно вызвать при помощи () или {} 
 #endif // CALLING_CONSTRUCTORS
-
-
 }
