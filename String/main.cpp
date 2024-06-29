@@ -11,111 +11,133 @@ class string
 	int size;
 	char* str;
 public:
-	int get_size()const
-	{
-		return size;
-	}
-	const char* get_str()const
-	{
-		return str;
-	}
-	char* get_str()
-	{
-		return str;
-	}
+	int get_size()const;
+	const char* get_str()const;
+	char* get_str();
 	//		Constactor:
-	explicit string(int size = 80):size(size), str(new char[size] {})
-	{
-		//this->size = size;
-		//this->str = new char[size] {};
-		cout << "Constructor:\t" << this << endl;
-	}
-	string(const char str[]):string(strlen(str) + 1)
-	{
-		//this->size = strlen(str) + 1;
-		// Ф-ция strlen() возвращает размер строки в символах
-		// И нам нужно добавить ещё один байт для NULL-Terminator`a
-		//this->str = new char[size] {};
-		for (int i = 0; i < size; i++)
-		{
-			this->str[i] = str[i];
-		}
-		cout << "Constructor:\t" << this << endl;
-	}
-	string(const string& other):string(other.str)
-	{
-		// Deep copy (Побитовое копирование)
-		//this->size = other.size;
-		//this->str = new char[size] {};
-		/*for (int i = 0; i < size; i++)
-		{
-			this->str[i] = other.str[i];
-		}*/
-		cout << "CopyConstructor:" << this << endl;
-	}
-	string(string&& other)noexcept:size(other.size), str(other.str)
-	{
-		//this->size = other.size;
-		//this->str = other.str;	//Shallow copy 
-			
-		//Reset other:
-		other.size = 0;
-		other.str = nullptr;
-		cout << "MoveConstructor:" << this << endl;
-	}
-	~string()
-	{
-		delete[] str;
-		cout << "Desctructor:\t" << this << endl;
-	}
+	explicit string(int size = 80);
+	string(const char str[]);
+	string(const string& other);
+	string(string&& other)noexcept;
+	~string();
 	//		Opeators:
-	string& operator=(const string& other)
-	{
-		// Deep copy (Побитовое копирование)
-		if (this == &other)return *this;
-		delete[] this->str;
-		this->size = other.size;
-		this->str = new char[size] {};
-		for (int i = 0; i < size; i++)
-		{
-			this->str[i] = other.str[i];
-		}
-		cout << "CopyAssigment:\t" << this << endl;
-		return *this;
-	}
-	string& operator=(string&& other)noexcept //r-value reference &&
-	{
-		if (this == &other)return *this;
-		delete[] this->str;
-		this->size = other.size;
-		this->str = other.str;
-
-		//Reset other:
-		other.size = 0;
-		other.str = nullptr;
-		cout << "MoveAssigment:\t" << this << endl;
-		return *this;
-	}
-	const char& operator[](int i)const
-	{
-		return str[i];
-	}
-	char& operator[](int i)
-	{
-		return str[i];
-	}
+	string& operator=(const string& other);
+	string& operator=(string&& other)noexcept;
+	const char& operator[](int i)const;
+	char& operator[](int i);
 
 
 	//		Methods:
-	void print()const
-	{
-		cout << "Obj:\t\t" << this << endl;
-		cout << "Size:\t\t" << size << endl;
-		cout << "Addr:\t\t" << &str << endl;
-		cout << "Str:\t\t" << str << endl;
-		cout << delimiter << endl;
-	}
+	void print()const;
 };
+//////////////////////////////////////////////////////
+//////			Class definition			//////////
+int string::get_size()const
+{
+	return size;
+}
+const char* string::get_str()const
+{
+	return str;
+}
+char* string::get_str()
+{
+	return str;
+}
+//		Constactor:
+string::string(int size) :size(size), str(new char[size] {})
+{
+	//this->size = size;
+	//this->str = new char[size] {};
+	cout << "Constructor:\t" << this << endl;
+}
+string::string(const char str[]) :string(strlen(str) + 1)
+{
+	//this->size = strlen(str) + 1;
+	// Ф-ция strlen() возвращает размер строки в символах
+	// И нам нужно добавить ещё один байт для NULL-Terminator`a
+	//this->str = new char[size] {};
+	for (int i = 0; i < size; i++)
+	{
+		this->str[i] = str[i];
+	}
+	cout << "Constructor:\t" << this << endl;
+}
+string::string(const string& other) :string(other.str)
+{
+	// Deep copy (Побитовое копирование)
+	//this->size = other.size;
+	//this->str = new char[size] {};
+	/*for (int i = 0; i < size; i++)
+	{
+		this->str[i] = other.str[i];
+	}*/
+	cout << "CopyConstructor:" << this << endl;
+}
+string::string(string&& other)noexcept :size(other.size), str(other.str)
+{
+	//this->size = other.size;
+	//this->str = other.str;	//Shallow copy 
+
+	//Reset other:
+	other.size = 0;
+	other.str = nullptr;
+	cout << "MoveConstructor:" << this << endl;
+}
+string::~string()
+{
+	delete[] str;
+	cout << "Desctructor:\t" << this << endl;
+}
+//		Opeators:
+string& string::operator=(const string& other)
+{
+	// Deep copy (Побитовое копирование)
+	if (this == &other)return *this;
+	delete[] this->str;
+	this->size = other.size;
+	this->str = new char[size] {};
+	for (int i = 0; i < size; i++)
+	{
+		this->str[i] = other.str[i];
+	}
+	cout << "CopyAssigment:\t" << this << endl;
+	return *this;
+}
+string& string::operator=(string&& other)noexcept //r-value reference &&
+{
+	if (this == &other)return *this;
+	delete[] this->str;
+	this->size = other.size;
+	this->str = other.str;
+
+	//Reset other:
+	other.size = 0;
+	other.str = nullptr;
+	cout << "MoveAssigment:\t" << this << endl;
+	return *this;
+}
+const char& string::operator[](int i)const
+{
+	return str[i];
+}
+char& string::operator[](int i)
+{
+	return str[i];
+}
+
+/////				Class definition end		/////
+////////////////////////////////////////////////////
+
+//		Methods:
+void string::print()const
+{
+	cout << "Obj:\t\t" << this << endl;
+	cout << "Size:\t\t" << size << endl;
+	cout << "Addr:\t\t" << &str << endl;
+	cout << "Str:\t\t" << str << endl;
+	cout << delimiter << endl;
+}
 
 std::ostream& operator<<(std::ostream& os, const string& obj)
 {
