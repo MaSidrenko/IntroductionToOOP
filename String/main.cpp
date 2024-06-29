@@ -1,167 +1,4 @@
-#include<iostream>
-
-using std::cout;
-using std::cin;
-using std::endl;
-
-#define delimiter "\n|-----------------------------------------------------|\n"
-
-class string
-{
-	int size;
-	char* str;
-public:
-	int get_size()const;
-	const char* get_str()const;
-	char* get_str();
-	//		Constactor:
-	explicit string(int size = 80);
-	string(const char str[]);
-	string(const string& other);
-	string(string&& other)noexcept;
-	~string();
-	//		Opeators:
-	string& operator=(const string& other);
-	string& operator=(string&& other)noexcept;
-	const char& operator[](int i)const;
-	char& operator[](int i);
-
-
-	//		Methods:
-	void print()const;
-};
-//////////////////////////////////////////////////////
-//////			Class definition			//////////
-int string::get_size()const
-{
-	return size;
-}
-const char* string::get_str()const
-{
-	return str;
-}
-char* string::get_str()
-{
-	return str;
-}
-//		Constactor:
-string::string(int size) :size(size), str(new char[size] {})
-{
-	//this->size = size;
-	//this->str = new char[size] {};
-	cout << "Constructor:\t" << this << endl;
-}
-string::string(const char str[]) :string(strlen(str) + 1)
-{
-	//this->size = strlen(str) + 1;
-	// Ф-ция strlen() возвращает размер строки в символах
-	// И нам нужно добавить ещё один байт для NULL-Terminator`a
-	//this->str = new char[size] {};
-	for (int i = 0; i < size; i++)
-	{
-		this->str[i] = str[i];
-	}
-	cout << "Constructor:\t" << this << endl;
-}
-string::string(const string& other) :string(other.str)
-{
-	// Deep copy (Побитовое копирование)
-	//this->size = other.size;
-	//this->str = new char[size] {};
-	/*for (int i = 0; i < size; i++)
-	{
-		this->str[i] = other.str[i];
-	}*/
-	cout << "CopyConstructor:" << this << endl;
-}
-string::string(string&& other)noexcept :size(other.size), str(other.str)
-{
-	//this->size = other.size;
-	//this->str = other.str;	//Shallow copy 
-
-	//Reset other:
-	other.size = 0;
-	other.str = nullptr;
-	cout << "MoveConstructor:" << this << endl;
-}
-string::~string()
-{
-	delete[] str;
-	cout << "Desctructor:\t" << this << endl;
-}
-//		Opeators:
-string& string::operator=(const string& other)
-{
-	// Deep copy (Побитовое копирование)
-	if (this == &other)return *this;
-	delete[] this->str;
-	this->size = other.size;
-	this->str = new char[size] {};
-	for (int i = 0; i < size; i++)
-	{
-		this->str[i] = other.str[i];
-	}
-	cout << "CopyAssigment:\t" << this << endl;
-	return *this;
-}
-string& string::operator=(string&& other)noexcept //r-value reference &&
-{
-	if (this == &other)return *this;
-	delete[] this->str;
-	this->size = other.size;
-	this->str = other.str;
-
-	//Reset other:
-	other.size = 0;
-	other.str = nullptr;
-	cout << "MoveAssigment:\t" << this << endl;
-	return *this;
-}
-const char& string::operator[](int i)const
-{
-	return str[i];
-}
-char& string::operator[](int i)
-{
-	return str[i];
-}
-
-/////				Class definition end		/////
-////////////////////////////////////////////////////
-
-//		Methods:
-void string::print()const
-{
-	cout << "Obj:\t\t" << this << endl;
-	cout << "Size:\t\t" << size << endl;
-	cout << "Addr:\t\t" << &str << endl;
-	cout << "Str:\t\t" << str << endl;
-	cout << delimiter << endl;
-}
-
-std::ostream& operator<<(std::ostream& os, const string& obj)
-{
-	return os << obj.get_str();
-	cout << delimiter;
-}
-string operator+(const string& left, const string& right)
-{
-	cout << "Operator '+'" << endl;
-	//cout << delimiter;
-	string buffer(left.get_size() + right.get_size() - 1);
-	//buffer.print();
-	for (int i = 0; i < left.get_size(); i++)
-	{
-		buffer[i] = left[i];
-		//buffer.get_str()[i] = left.get_str()[i];
-	}
-	for (int i = 0; i < right.get_size(); i++)
-	{
-		buffer[i + left.get_size() - 1] = right[i];
-		//buffer.get_str()[i + left.get_size() - 1] = right.get_str()[i];
-	}
-	return buffer;
-}
+#include"String.h"
 
 //#define HOME_WORK
 //#define COPY_ASSIGMENT
@@ -171,33 +8,33 @@ void main()
 {
 	setlocale(LC_ALL, "");
 #ifdef HOME_WORK
-	string str1;
+	String str1;
 	str1.print();
 
-	//string str2 = 8;
-	string str2(8);
+	//String str2 = 8;
+	String str2(8);
 	str2.print();
 
-	string str3 = "Hello";
+	String str3 = "Hello";
 	str3 = str3;
 	str3.print();
 
-	string str4 = "World";
+	String str4 = "World";
 	str4.print();
 
 	cout << str3 << endl;
 	cout << str4 << endl;
 	//string str5 = str3 + str4;
-	string str5;
+	String str5;
 	str5 = str3 + str4;
 	cout << str5 << endl;
 	cout << delimiter;
 #endif // HOME_WORK
 
 #ifdef COPY_ASSIGMENT
-	string str1 = "Hello";
-	string str2 = "World";
-	string str3;
+	String str1 = "Hello";
+	String str2 = "World";
+	String str3;
 
 	cout << delimiter << endl;
 	str3 = str1 + str2;
@@ -209,27 +46,27 @@ void main()
 #endif // COPY_ASSIGMENT
 
 #ifdef CALLING_CONSTRUCTORS
-	string str1;			//default constractor
+	String str1;			//default constractor
 	str1.print();
 
 	//string str2 = 8;		//explicit constructor так вызвать невозможно
-	string str2(8);			//explicit constructor можно вызвать только так
+	String str2(8);			//explicit constructor можно вызвать только так
 	str2.print();
-	string str3 = "Hello";	//single-argiment constructor 'char'
+	String str3 = "Hello";	//single-argiment constructor 'char'
 	str3.print();
 
-	string str4();			//Здесь НЕ вызывается никаой конструктор, и не созадется объект
+	String str4();			//Здесь НЕ вызывается никаой конструктор, и не созадется объект
 							//здесь объявляется функция str4, которая не принимает никаких параметров
 							// И возвращает значение типа 'string'
 							// т.е., таким образом DefaulConstractor вызвать невозможно 
 	//str4.print();
 	//Если нужно явно вызвать DefaultConstructor, это делается следубщим образом:
-	string str5{};			//Явный вызов конструктора по умолчанию
+	String str5{};			//Явный вызов конструктора по умолчанию
 	str5.print();
 	
 	//string str6 = str3;		//CopyConstructor
 	//string str6 (str3);		//CopyConstructor
-	string str6{ str3 };		//CopyConstructor
+	String str6{ str3 };		//CopyConstructor
 	str6.print();
 	// Следовательно, абсолютно любой конструктор можно вызвать при помощи () или {} 
 #endif // CALLING_CONSTRUCTORS
