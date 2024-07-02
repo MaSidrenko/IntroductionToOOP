@@ -1,131 +1,12 @@
-#include<iostream>
+#include"Point.h"
 
-using namespace std;
 
-using std::cout;
-using std::cin;
-using std::endl;
-
-class Point 
-{
-	double x;
-	double y;
-public:
-	double get_x()const
-	{
-		return x;
-	}
-	double get_y()const
-	{
-		return y;
-	}
-	void set_x(double x)
-	{
-		this->x = x;
-	}
-	void set_y(double y)
-	{
-		this->y = y;
-	}
-	//		Operators:
-	Point& operator=(const Point& other)
-	{
-		this->x = other.x;
-		this->y = other.y;
-		cout << "CopyAssignment:\t\t" << this << endl;
-		return *this;
-	}
-	Point& operator++()
-	{
-		x++;
-		y++;
-		return *this;
-	}
-	Point operator++(int)
-	{
-		Point old = *this;
-		x++;
-		y++;
-		return old;
-	}
-	//			Methods:
-	double distanse(const Point& other)
-	{
-		double x_distance = this->x - other.x;
-		double y_distance = this->y - other.y;
-		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-		return distance;
-	}
-
-	void print()const
-	{
-		cout << "x = " << x << "\ty = " << y << endl;
-	}
-	Point()
-	{
-		x = y = 0;
-		cout << "DefaultConstsrtuctor:\t" << this << endl;
-	}
-	Point(double x)
-	{
-		this->x = x;
-		this->y = 0;
-		cout << "1ArgConstructor:\t" << this << endl;
-	}
-	Point(double x, double y)
-	{
-		this->x = x;
-		this->y = y;
-		cout << "Constructor:\t\t" << this << endl;
-	}
-	Point(const Point& other)
-	{
-		this->x = other.x;
-		this->y = other.y;
-		cout << "CopyConstructor:\t" << this << endl;
-	}
-	~Point()
-	{
-		cout << "Destructor:\t\t" << this << endl;
-	}
-
-};
-
-double distance(const Point& A, const Point& B)
-{
-	
-	double x_distance = A.get_x() - B.get_x();
-	double y_distance = A.get_y() - B.get_y();
-	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-	return distance;
-}
-Point operator+(const Point& left, const Point& right)
-{
-	Point result;
-		result.set_x(left.get_x() + right.get_x());
-		result.set_y(left.get_y() + right.get_y());
-		return result; 
-}
-bool operator==(const Point& left, const Point& right)
-{
-	/*if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
-		return true;
-	else
-		return false;*/
-	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
-
-}
-std::ostream& operator<<(std::ostream& os, const Point& obj)
-{
-	return os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
-}
 //#define STRICT_POINT
 //#define CONSTRACTOR_CHECK
 //#define DISTANCE_CHECK
 //#define ASSIGNMENT_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define COPARISON_OPERATORS_CHECK
-#define delimeter "\n|--------------------------------------------------------------|\n"
 
 void main()
 {
@@ -229,6 +110,11 @@ void main()
 	Point A(2, 3);
 	
 	cout << A << endl;
+	Point B(2, 4);
+	cout << B <<endl;
+	cout << delimeter << endl;
+	cout << A + B << endl;
+	cout << A.distanse(B) << endl;
 
 }
 
